@@ -6,10 +6,15 @@
 
 ```sh
 # Install dependencies
-npm install
+yarn install
 
 # Run the bot
-npm start
+yarn start
+```
+
+```sh
+# Run test
+yarn test
 ```
 
 ## Contributing

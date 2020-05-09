@@ -3,33 +3,17 @@
  * @param {import('probot').Application} app
  */
 module.exports = app => {
-  app.log('Yay, the app was loaded!')
+  app.log('Yay, ::PR number replacer:: was loaded!')
 
-  app.on('issues.opened', async context => {
-    // `context` extracts information from the event, which can be passed to
-    // GitHub API calls. This will return:
-    //   {owner: 'yourname', repo: 'yourrepo', number: 123, body: 'Hello World!}
-    const params = context.issue({ body: 'Thanks for opening this issue!' })
+  app.on('pull_request.opened', async context => {
+    const prNumberRegex = /(::pr_number::)/gi
 
-    // Post a comment on the issue
-    return context.github.issues.createComment(params)
-  })
+    const prNumber = context.payload.pull_request.number
+    const prDescription = context.payload.pull_request.body
 
-  app.on('pull_request.assigned', async context => {
-    console.log('pull request assigned,  context')
-    app.log(context)
-  })
-
-  // app.on('pull_request.opened', async context => {
-  app.on('pull_request.assigned', async context => {
-    const regex = /(::pr_number::)/gi
-
-    const pullRequestNumber = context.payload.pull_request.number
-    const pullRequestDesription = context.payload.pull_request.body
-
-    var newBody = pullRequestDesription.replace(regex, pullRequestNumber)
+    var newBody = prDescription.replace(prNumberRegex, prNumber)
     const params = context.issue({ body: newBody })
 
-    return context.github.issues.edit(params)
+    return context.github.issues.update(params)
   })
 }
