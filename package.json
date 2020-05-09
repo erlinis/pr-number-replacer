@@ -1,7 +1,7 @@
 {
   "name": "pr-number-replacer",
   "version": "1.0.0",
-  "description": "Probot app to replace PR number within its description",
+  "description": "Probot app to replace the PR number within the pull request description",
   "author": "Erlinis Quintana <erlinis.quintana@gmail.com>",
   "license": "ISC",
   "repository": "https://github.com//pr-number-replacer.git",
